@@ -6,13 +6,19 @@ using System.Text.RegularExpressions;
 string input = "input.txt";
 var enviroment = System.Environment.CurrentDirectory;
 string ?projectDirectory = Directory.GetParent(enviroment)?.Parent?.FullName;
-string text = System.IO.File.ReadAllText($"{projectDirectory}/../{input}");
+string text = null;
+try {
+    text = System.IO.File.ReadAllText($"{projectDirectory}/../{input}");
+}catch(FileNotFoundException ex) {
+    // when running from cli dotnet run
+    text = System.IO.File.ReadAllText($"./{input}");
+}
 
 
 // Split for each empty lines is an elves
 Regex rx = new Regex(@"^$[\r\n]+", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 var elves = rx.Split(text);
-Console.WriteLine(elves.Count());
+//Console.WriteLine(elves.Count());
 
 // map lines for each elves, cast to number, to array
 var elvesCalories = elves
