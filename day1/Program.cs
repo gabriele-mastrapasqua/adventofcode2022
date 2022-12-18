@@ -58,3 +58,17 @@ foreach (var calories in elvesCalories)
     }
 }
 Console.WriteLine($"Max calories for all elves: {max}");
+
+// 2 - find the top 3 elves carring max calories, then sum them
+
+// then sum foreach elves and find the max value
+var maxElvesCalories = new List<int>();
+foreach (var calories in elvesCalories)
+{
+    var sum = calories.Sum();
+    maxElvesCalories.Add(sum);
+}
+maxElvesCalories.Sort();
+maxElvesCalories.Reverse();
+Console.WriteLine($"Top 3 elves total calories: {maxElvesCalories.Take(3).Sum()}");
+
