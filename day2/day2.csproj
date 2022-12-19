@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="enums\" />
+  </ItemGroup>
 </Project>
