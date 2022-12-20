@@ -1,4 +1,4 @@
-# adventofcode2022
+# Advent of Code 2022
 Some Advent of code 2022 Solutions in C# to learn the language!
 
 ## How to run
