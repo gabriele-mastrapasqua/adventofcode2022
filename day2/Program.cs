@@ -1,26 +1,9 @@
 ﻿
-string ReadFile(string input = "input.txt")
-{
-
-    var enviroment = Environment.CurrentDirectory;
-    string? projectDirectory = Directory.GetParent(enviroment)?.Parent?.FullName;
-    string text = null;
-    try
-    {
-        text = File.ReadAllText($"{projectDirectory}/../{input}");
-    }
-    catch (FileNotFoundException ex)
-    {
-        // when running from cli dotnet run
-        text = File.ReadAllText($"./{input}");
-    }
-    return text;
-}
 
 
 // read input file
-//var text = ReadFile("input.test.txt");
-var text = ReadFile("input.txt");
+//var text = Utils.ReadFile("input.test.txt");
+var text = Utils.ReadFile("input.txt");
 
 
 // get all games line by lines
@@ -51,7 +34,7 @@ games.ForEach(game =>
     var movementPlayer2 = movementsEncodingPart1[player2Str];
     //Console.WriteLine($"player1  {player1Str}={movementPlayer1}, player2 {player2Str}={movementPlayer2}");
 
-    var gameScore = CalculateGameScore(movementPlayer1, movementPlayer2);
+    var gameScore = Game.CalculateGameScore(movementPlayer1, movementPlayer2);
     Console.WriteLine($"player1  {player1Str}={movementPlayer1}, player2 {player2Str}={movementPlayer2}; score {gameScore}");
 
     score += gameScore;
@@ -59,52 +42,6 @@ games.ForEach(game =>
 });
 
 Console.WriteLine($"Total games score: {score}");
-
-/*
- Calculate the total score for each line summing the outcome + shape choosed.
- The score is referred to player2 (you)
-
-  
- NOTE: player1 is the opponent
- NOTE: player2 is you
-
- */
-int CalculateGameScore(ScoresPerShape player1, ScoresPerShape player2)
-{
-
-    var rulesForWinning = new Dictionary<ScoresPerShape, ScoresPerShape>
-    {
-        [ScoresPerShape.Rock] = ScoresPerShape.Scissors,
-        [ScoresPerShape.Scissors] = ScoresPerShape.Paper,
-        [ScoresPerShape.Paper] = ScoresPerShape.Rock,
-
-    };
-
-    var outcome = 0;
-    var scorePerShape = 0;
-
-    // check draw
-    if (player1.Equals(player2))
-    {
-        outcome = (int)ScoresPerOutcome.Draw;
-        scorePerShape = (int)player2;
-    }
-
-    // check win
-    else if (rulesForWinning[player2] == player1)
-    {
-        outcome = (int)ScoresPerOutcome.Win;
-        scorePerShape = (int)player2;
-    }
-    else
-    {
-        outcome = (int)ScoresPerOutcome.Lose;
-        scorePerShape = (int)player2;
-    }
-
-
-    return outcome + scorePerShape;
-}
 
 
 // PART 2: the columns change meaning
@@ -160,7 +97,7 @@ games.ForEach(game =>
         finalMovementPlayer2 = rulesForLosing[(ScoresPerShape)movementPlayer1];
     }
 
-    var gameScore = CalculateGameScore((ScoresPerShape)movementPlayer1, finalMovementPlayer2);
+    var gameScore = Game.CalculateGameScore((ScoresPerShape)movementPlayer1, finalMovementPlayer2);
     Console.WriteLine($"player1  {player1Str}={movementPlayer1}, player2 {player2Str}={movementPlayer2}; score {gameScore}");
 
     score += gameScore;
